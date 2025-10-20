@@ -1,0 +1,165 @@
+# 🧠 Emotion Recognition using Deep Learning via Facial Expression
+
+---
+
+## 👥 Team Members
+
+| Name                     | Student ID |
+| ------------------------ | ---------- |
+| **MM Al Irfan Bhuiyan**  | S372087    |
+| **Hasnain Khan**         | S371833    |
+| **Hasnain Reza Khetani** | S374688    |
+| **Hamza Gul**            | S372115    |
+
+---
+
+## 📘 Project Overview
+
+This project implements an **Emotion Recognition System** using an **ensemble of nine convolutional neural networks (CNNs)**.
+It classifies facial emotions from the **FER-2013 dataset** and provides an **interactive Streamlit web interface** for image upload or webcam capture.
+All experiments, model training, and deployment were performed on **Google Colab** and **Kaggle**.
+
+---
+
+## 📁 Folder Structure
+
+```
+SOURCE CODE/
+│
+├── application/
+│   └── app.py                  ← Streamlit app
+│
+├── ensembling/
+│   ├── ensembletesting.ipynb
+│   └── final_application_and_ensembling.ipynb
+│
+├── Models Training/
+│   ├── modeltraining1.ipynb
+│   ├── modeltraining2.ipynb
+│   ├── modeltraining3.ipynb
+│   └── modeltraining4.ipynb
+│
+├── Trained_Models/
+│   ├── bam_resnet50.pth
+│   ├── cbam_resnet50.pth
+│   ├── densenet121.pth
+│   ├── efficientnet_b2.pth
+│   ├── googlenet.pth
+│   ├── inception_v3.pth
+│   ├── resnet34.pth
+│   ├── resnet152.pth
+│   ├── simplecnn.pth
+│   └── vgg19.pth
+│
+└── requirements.txt
+```
+
+---
+
+## ⚙️ 1. Environment Setup (Google Colab)
+
+### Step 1 – Install Required Packages
+
+Run in a Colab cell:
+
+```bash
+!pip install -r /content/drive/MyDrive/requirements.txt
+```
+
+Main dependencies:
+
+```
+streamlit
+torch
+torchvision
+timm
+pillow
+pandas
+numpy
+matplotlib
+opencv-python-headless
+pyngrok
+```
+
+---
+
+## ☁️ 2. Mount Google Drive
+
+Upload the complete folder (including `.pth` model files) to your Drive and mount it:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+Update the model directory path in **app.py**:
+
+```python
+models_path = "/content/drive/MyDrive/Trained_Models"
+```
+
+---
+
+## 📦 3. Download FER-2013 Dataset via Kaggle API
+
+1. Upload your **`kaggle.json`** to Colab:
+
+   ```python
+   from google.colab import files
+   files.upload()   # select kaggle.json
+   ```
+2. Configure and download:
+
+   ```bash
+   !mkdir -p ~/.kaggle
+   !mv kaggle.json ~/.kaggle/
+   !chmod 600 ~/.kaggle/kaggle.json
+   !kaggle datasets download -d msambare/fer2013
+   !unzip fer2013.zip -d /content/dataset
+   ```
+
+---
+
+## 🚀 4. Launch the Streamlit App
+
+Copy the app to Colab working directory and expose it via **ngrok/localtunnel**:
+
+```bash
+!cp /content/drive/MyDrive/application/app.py /content/app.py
+!streamlit run app.py & npx localtunnel --port 8501
+```
+
+After a few seconds, a **public URL** will appear in the output — click it to access the app.
+
+---
+
+## 🖼️ 5. Using the Application
+
+* Upload or capture an image through the Streamlit interface.
+* The ensemble model predicts emotion using all nine CNN architectures.
+* Final prediction and confidence distribution are displayed.
+
+---
+
+## 🧠 6. Retraining Models (Optional)
+
+If retraining is needed:
+
+1. Open any notebook under `Models Training/`.
+2. Adjust dataset paths (Drive mount).
+3. Run cells sequentially to produce new `.pth` weight files.
+4. Save them inside `Trained_Models/`.
+
+---
+
+## 🏁 Summary
+
+| Task                      | Where to Run | Command                                               |
+| ------------------------- | ------------ | ----------------------------------------------------- |
+| Mount Drive               | Google Colab | `drive.mount('/content/drive')`                       |
+| Install Requirements      | Google Colab | `!pip install -r requirements.txt`                    |
+| Download Dataset          | Google Colab | `!kaggle datasets download -d msambare/fer2013`       |
+| Launch App                | Google Colab | `!streamlit run app.py & npx localtunnel --port 8501` |
+| Retrain Models (Optional) | Google Colab | Run notebooks in *Models Training/*                   |
+
+
